@@ -4,20 +4,8 @@ inductive pol_list (α  : Type) : Type
 | nil {} : pol_list
 | cons : α → pol_list → pol_list 
 
-def pl0 : (pol_list nat) := pol_list.nil 
-def pl1 : (pol_list nat) := pol_list.cons 0 pl0
-
-#check pol_list
-#check @pol_list.cons
-#check @pol_list.cons ℕ 
-#check @pol_list.cons ℕ 7
-
 def f := @pol_list.cons ℕ 7 
 def g := @pol_list.cons ℕ 11
-
-#check f pl1
-
-#check @pol_list.cons ℕ 7 pl1
 
 def pol_map {α β : Type} : (α → β) → pol_list α  → pol_list β 
 | f pol_list.nil := pol_list.nil
@@ -26,15 +14,31 @@ def pol_map {α β : Type} : (α → β) → pol_list α  → pol_list β
 def is_even : ℕ → bool
 | n := n % 2 = 0
 
-#reduce pol_map is_even pl1
+
 
 def pol_append {α : Type} : pol_list α → pol_list α → pol_list α 
 | pol_list.nil l2 := l2
-| (pol_list.cons h t) l2 := pol_append t (pol_list.cons h l2)
+| (pol_list.cons h t) l2 := pol_list.cons h (pol_append t l2)
 
-#reduce pol_append pl0 pl1
 
 /-list reverse function, filter: takes a function alpha to bool and a list of bools and a sub list of only the elemtns that return true-/
+
+def reverse_list {α : Type} : pol_list α → pol_list α 
+| pol_list.nil := pol_list.nil
+| (pol_list.cons h t) := pol_append (reverse_list t) (pol_list.cons h pol_list.nil)
+
+def filter {α : Type} : (α → bool) → pol_list α → pol_list α 
+| f pol_list.nil := pol_list.nil 
+| f (pol_list.cons h t) :=  if (f h) 
+                            then pol_list.cons h (filter f t) 
+                            else (filter f t)
+
+def fold {α β : Type} : (α → β → β) → β → pol_list α → β 
+| f i pol_list.nil := i
+| f i (pol_list.cons h t) := (f h (fold f i t))
+
+def fold_is_even : ℕ → bool → bool 
+| h r := band (is_even h) r 
 
 
 end my_private
