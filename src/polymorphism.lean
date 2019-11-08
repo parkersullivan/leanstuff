@@ -1,4 +1,7 @@
+import .option
 namespace my_private
+
+open my_option
 
 inductive pol_list (α  : Type) : Type
 | nil {} : pol_list
@@ -40,6 +43,14 @@ def fold {α β : Type} : (α → β → β) → β → pol_list α → β
 def fold_is_even : ℕ → bool → bool 
 | h r := band (is_even h) r 
 
+def head (α : Type) : pol_list α → pol_option α 
+| pol_list.nil := pol_option.None α 
+| (pol_list.cons h t) := pol_option.Some h 
+
+
+def tail (α : Type) : pol_list α → pol_option (pol_list α)
+| pol_list.nil := pol_option.None (pol_list α) 
+| (pol_list.cons h t) := pol_option.Some t
 
 end my_private
 

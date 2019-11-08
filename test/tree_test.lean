@@ -31,5 +31,9 @@ theorem zero_eq_zero : 0 = 0 := eq.refl 0
 theorem zez_and_5eq5 : (0 = 0) ∧ (5 = 5) :=
     and.intro (eq.refl 0) (eq.refl 5)
 
-theorem all_n : ∀ (n : ℕ), n = n := 
+theorem all_n_self_eq : ∀ (n : ℕ), n = n := 
     λ (x : ℕ), (eq.refl x)
+
+#check all_n_self_eq 
+
+#reduce all_n_self_eq 7
