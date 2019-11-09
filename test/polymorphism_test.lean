@@ -1,4 +1,4 @@
-import ..src.polymorphism
+import ..src.list
 open my_private
 /-testing partially evaluation with polymorphic lists-/
 #check pol_list

@@ -18,7 +18,6 @@ def is_even : ℕ → bool
 | n := n % 2 = 0
 
 
-
 def pol_append {α : Type} : pol_list α → pol_list α → pol_list α 
 | pol_list.nil l2 := l2
 | (pol_list.cons h t) l2 := pol_list.cons h (pol_append t l2)
@@ -52,7 +51,13 @@ def tail (α : Type) : pol_list α → pol_option (pol_list α)
 | pol_list.nil := pol_option.None (pol_list α) 
 | (pol_list.cons h t) := pol_option.Some t
 
+def list_in {α : Type} [decidable_eq α]: pol_list α → α → bool
+| pol_list.nil x := ff
+| (pol_list.cons h t) x := if (h = x) then tt
+                         else if (list_in t x) then tt else ff 
+
 end my_private
+
 
 
 

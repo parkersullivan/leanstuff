@@ -9,4 +9,9 @@ def op1 := pol_option.Some 5
 
 #check op0
 
+def option_in {α : Type} [decidable_eq α] : pol_option α → α → bool
+| (pol_option.None α) n := ff
+| (pol_option.Some x) n := (n = x)
+
+
 end my_option
